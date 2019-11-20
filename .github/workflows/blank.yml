@@ -1,0 +1,17 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: One-line script
+      run: echo Parallel!
+    - name: Multi-line script
+      run: |
+        echo Parallel(s),
+        echo test, and deploy your project.
