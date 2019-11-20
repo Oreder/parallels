@@ -13,5 +13,5 @@ jobs:
       run: echo Parallel!
     - name: Multi-line script
       run: |
-        echo Parallel(s),
-        echo test, and deploy your project.
+        echo Parallels,
+        echo test, and deploy our project.
