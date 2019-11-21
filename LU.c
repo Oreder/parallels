@@ -21,7 +21,7 @@ double **LUPInverse(const int N, double **src, const double Tol)
     // Decomposition
     double maxA, *ptr, absA;
 
-    int *P = init_array(N);     // pivot
+    int *P = init_array(N+1);     // pivot
     // if (!P) return NULL;
     for (int i = 0; i <= N; i++)
         P[i] = i;               // Unit permutation matrix, P[k] initialized with k
@@ -67,7 +67,7 @@ double **LUPInverse(const int N, double **src, const double Tol)
         }
     }
 
-    // Decomposition done 
+    // Decomposition done: A = (L - E) + U 
 
     double **IA = init_matrix(N);
     if (!IA) return NULL;
