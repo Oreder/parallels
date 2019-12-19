@@ -1,8 +1,9 @@
-# include <math.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <time.h>
-# include <omp.h>
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <omp.h>
+#define pi 3.141592653589793
 
 double f(double x);
 double cpu_time();
@@ -15,48 +16,49 @@ int main(int argc, char *argv[])
     double error;
     double exact = 0.49936338107645674464;
     int i;
-    int n = 10000000;
+    int n = atoi(argv[1]); // 1000000
     double total;
     double wtime;
     double x;
 
-    printf("  \nC version\n");
+    printf("\n  C version\n");
     printf("  Using OpenMP for parallel execution.\n");
     printf("  Estimate an integral of f(x) from A to B.\n");
     printf("  Function: f(x) = 50 / (pi * (2500 * x * x + 1))\n\n");
     printf("  A = %f\tB = %f\tN = %d\n", a, b, n);
     printf("  EXACT = %.16f\n\n", exact);
+    double step = (b - a) / (double)(n);
 
     timestamp();
     wtime = omp_get_wtime();
+    omp_set_num_threads(atoi(argv[2]));
+
     total = 0.0;
 
     #pragma omp parallel shared(a, b, n) private(i, x) 
     #pragma omp for reduction(+ : total)
-    for (i = 0; i < n; i++)
+    for (i = 0; i < (int)(n / 2); i++)
     {
-        x = ((double)(n - i - 1) * a + (double)(i) * b) / (double)(n - 1);
-        total += + f(x);
+        x = a + (double)(i) * 2.0 * step;
+        total += f(x) + 4.0 * f(x + step) + f(x + 2.0 * step);
     }
 
     wtime = omp_get_wtime() - wtime;
 
-    total =(b - a) * total /(double) n;
+    total *= step / 3.0;
     error = fabs(total - exact);
 
-    printf("\n");
-    printf("  Estimate = %.16f\n", total);
+    printf("\n  Estimate = %.16f\n", total);
     printf("  Error    = %e\n", error);
     printf("  Time     = %f\n", wtime);
     timestamp();
 
-  return 0;
+    return 0;
 }
 
-double f (double x)
+double f(double x)
 {
-    double pi = 3.141592653589793;
-    return 50.0 /(pi *(2500.0 * x * x + 1.0));
+    return 50.0 / (pi * (2500.0 * x * x + 1.0));
 }
 
 /*
@@ -64,7 +66,7 @@ double f (double x)
  */
 double cpu_time()
 {
-  return (double) clock() /(double) CLOCKS_PER_SEC;;
+  return (double)clock() / (double)CLOCKS_PER_SEC;
 }
 
 /*
@@ -78,7 +80,7 @@ void timestamp()
     time_t now = time (NULL);
     const struct tm *tm = localtime (&now);
 
-    strftime (time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm);
+    strftime(time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm);
 #undef TIME_SIZE
 
     printf ("%s\n", time_buffer);
