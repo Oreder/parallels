@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "alloc.h": "c",
+        "type_traits": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
