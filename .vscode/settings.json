@@ -1,6 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
-        "alloc.h": "c"
+        "alloc.h": "c",
+        "cmath": "c"
     }
 }

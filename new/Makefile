@@ -1,20 +1,20 @@
 # Compiler
-CC := gcc
+CC := mpicc
 
 # Compiler options
 FLAGS := -std=c99 -Wall -Werror
 
 # Dependency
-DEPS := alloc.h io.h LU.h
+DEPS := matrix.h
 
 # Object files
-OBJS := alloc.o io.o LU.o
+OBJS := matrix.o
 
 %.o: %.c $(DEPS)
 	$(CC) $(FLAGS) -c $<
 
-01.exe: source.o $(OBJS)
+lab2: main.o $(OBJS)
 	$(CC) -o $@ $^
-	
+
 clean:
-	$(RM) *.o *.exe
+	$(RM) *.o *.exe *.out lab*

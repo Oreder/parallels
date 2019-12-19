@@ -1,3 +1,7 @@
+/*
+ * Matrix inverse by method advanced LU decomposition (PA = LU)
+ */
+
 #include "io.h"
 #include "LU.h"
 #include "alloc.h"

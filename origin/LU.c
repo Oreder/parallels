@@ -67,7 +67,7 @@ double **LUPInverse(const int N, double **src, const double Tol)
         }
     }
 
-    // Decomposition done: A = (L - E) + U 
+    // Decomposition done: A = (L - E) + U
 
     double **IA = init_matrix(N);
     if (!IA) return NULL;
@@ -101,7 +101,7 @@ double **LUPInverse(const int N, double **src, const double Tol)
 }
 
 /*  INPUT: size - dismension; A, IA - matrix and its invertion
- *
+ * OUTPUT: correct inverse matrix or not
  */
 int validInverse(const int size, double **A, double **IA, double tol)
 {
